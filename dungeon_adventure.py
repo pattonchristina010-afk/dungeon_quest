@@ -1,6 +1,7 @@
 import random
 
 def main():
+    result = ''
     def setup_player():
         """
         Prompts the user to create their player profile.
@@ -18,7 +19,9 @@ def main():
         # TODO: Ask the user for their name using input()
         # TODO: Initialize a dictionary with keys: "name", "health", and "inventory"
         # TODO: Return the dictionary
-
+        player_one = input('Please enter your name: ')
+        return  {'name':player_one,'health':10,'inventory':[]}
+    
 
     def create_treasures():
         """
@@ -38,7 +41,14 @@ def main():
         """
         # TODO: Create a dictionary of treasure names and integer values
         # TODO: Return the dictionary
-
+        return {
+            'gold coin' : random.randint(3,12), 
+            'ruby' : random.randint(5,15),
+            'ancient scroll' : random.randint(7,17),
+            'emerald' : random.randint(9,19),
+            'silver ring' : random.randint(11,21)
+        }
+     
 
     def display_options(room_number):
         """
@@ -56,7 +66,7 @@ def main():
             4. Quit the game
         """
         # TODO: Print the room number and the 4 menu options listed above
-
+        print (f'You are in room {room_number}\n What would you like to do?\n 1. Search for treasure\n2. Move to next room\n3. Check health and inventory\n 4. Quit Game')
 
     def search_room(player, treasures):
         """
@@ -79,7 +89,18 @@ def main():
         # TODO: Write an if/else to handle treasure vs trap outcomes
         # TODO: Update player dictionary accordingly
         # TODO: Print messages describing what happened
-
+        print(outcome)
+        outcome = random.choice(["treasure","trap"])
+        
+        if outcome == "treasure":
+            current_treasure = random.choice(list(treasures.items()))
+            player ['inventory'] = current_treasure
+            print (f"Congratulations you recieved: {current_treasure}")
+        else:
+            player['health'] = player['health'] - 2
+            health = player['health']
+            print (f"WARNING you only have {health} remaining")
+        return 
 
     def check_status(player):
         """
@@ -98,7 +119,13 @@ def main():
         # TODO: Print player health
         # TODO: If the inventory list is not empty, print items joined by commas
         # TODO: Otherwise print “You have no items yet.”
-
+        inventory = player['inventory']
+        health = player['health']
+        print(f'Health: {health}')
+        if inventory != (''):
+            print('Inventory: ' +", ".join(map(str, inventory)))
+        else:
+            print('Inventory: "You have no inventory"')
 
     def end_game(player, treasures):
         """
@@ -114,7 +141,12 @@ def main():
         # TODO: Calculate total score by summing the value of collected treasures
         # TODO: Print final health, items, and total value
         # TODO: End with a message like "Game Over! Thanks for playing."
-
+        total_score = 0
+        for item in player['inventory']:
+            total_score = total_score + treasures[item]
+        print ('Final Health: '+ player['health'])
+        print("Your Treasure:" + ",".join(map(str, player['inventory'])))
+        print (f'Final Score: {total_score}')
 
     def run_game_loop(player, treasures):
         """
@@ -138,6 +170,17 @@ def main():
         # TODO: Use if/elif to handle each choice (1–4)
         # TODO: Break or return appropriately when player quits or dies
         # TODO: Call end_game() after all rooms are explored
+        for num in range(1,6):
+            room_number = num
+            display_options(room_number)
+            print('Please enter your choice:(1-4)')
+            player_choice=input()
+            while player_choice != 2:
+                if player_choice == 1:
+                    search_room(player,treasures)
+                    display_options(room_number)
+                    player_choice = input('Please enter your choice:(1-4)')
+                
 
 
     # -----------------------------------------------------
