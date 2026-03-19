@@ -1,7 +1,9 @@
 import random
 
 def main():
-
+    def create_scoreboard(player,final_score):
+        high_score = {player['name']:final_score}
+        return high_score
     def setup_player():
         """
         Prompts the user to create their player profile.
@@ -61,11 +63,8 @@ def main():
             
             if used_potion != True:
                 player['health'] = 10
-                used_potion = True
                 print('Congratulations your health is now 10')
-            else:
-                print('Sorry you are out of potions')
-            return used_potion
+            
     def display_options(room_number):
         """
         Displays available options for the player in the current room.
@@ -173,6 +172,7 @@ def main():
         print(f"Your Treasure: {", ".join(map(str, player['inventory']))}" )
         print (f'Final Score: {final_score}')
         
+    
     def run_game_loop(player, treasures,traps):
         """
         Main game loop that manages the rooms and player decisions.
@@ -198,12 +198,13 @@ def main():
         rooms = [1,2,3,4,5]
         room = 1
         used_potion = False
+
         while room in rooms:
             if player['health'] == 0: 
                 break
             while player['health'] != 0 and room != 6 :
                 display_options(room)
-                player_choice=input(print('Please enter your choice:(1-4)'))
+                player_choice=input(print('Please enter your choice:(1-6)'))
                 while player_choice != "5" :
                     if player_choice == "1":
                         search_room(player,treasures,traps)
@@ -226,7 +227,7 @@ def main():
                 if player_choice == "5":
                         break
         end_game(player,treasures)        
-            
+                                                                     
                 
 
 
